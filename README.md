@@ -1,125 +1,128 @@
-# ⚡ Youon Intelligence – Plataforma de Inteligência de Mercado no Setor de Energia
+# ⚡ Youon Intelligence – Plataforma de Inteligência Energética (Exemplo Técnico)
 
-Bem-vindo ao repositório oficial do **Youon Intelligence**, uma solução robusta de ingestão, enriquecimento e análise de dados energéticos em larga escala. A plataforma transforma dados brutos da ANEEL e outras fontes públicas em inteligência estratégica para áreas técnicas, comerciais e executivas da You.On.
+Este repositório apresenta uma arquitetura **completa e escalável** para **ingestão, enriquecimento e análise de dados energéticos** em larga escala.
+A proposta é mostrar como dados **públicos** (ANEEL, Receita Federal, IBGE, entre outros) podem ser transformados em **inteligência estratégica** para apoiar decisões técnicas, comerciais e executivas.
+
+⚠️ **Nota importante:** este projeto tem caráter **educacional e exploratório**. Ele não representa um sistema em produção, mas sim um **exemplo prático** de boas práticas em engenharia de software, ciência de dados e arquitetura de sistemas.
 
 ---
 
-## 💡 Visão Geral
+## 💡 Objetivo
 
-Este projeto processa **milhões de registros** vindos de diferentes fontes (ANEEL, CCEE, Receita Federal, etc.) para produzir:
+A plataforma demonstra como lidar com **milhões de registros de diferentes fontes**, aplicando técnicas modernas de ETL, modelagem de dados e visualização. Entre as entregas possíveis estão:
 
-* Leads qualificados para os produtos Arbitragem, Backup, GTD, etc.
-* Insights geoespaciais e temporais do consumo e demanda elétrica
+* Leads qualificados a partir de dados públicos
+* Insights geoespaciais e temporais de consumo e demanda elétrica
 * Indicadores de qualidade por município, cliente e distribuidora
-* Dashboards administrativos e API pública de consulta
+* API de consulta e dashboards interativos
+
+O grande diferencial está na **transformação de dados brutos em inteligência acionável**.
 
 ---
 
-## 📌 Funcionalidades
+## 📌 Principais Funcionalidades
 
-* 🔄 Importação automatizada de arquivos UCAT, UCMT, UCBT (GDB ou CSV)
-* 🧹 Normalização e transformação de dados para estrutura relacional
-* 🧠 Enriquecimento com APIs externas: CNPJ, CNAE, coordenadas
-* 📊 Visualização por mapas, séries temporais e agregações
-* 🔍 Pipeline auditável com versionamento e controle de status
-* 🧰 Indexação, views otimizadas e materialized views com refresh
+* 🔄 **Importação automatizada** de datasets (UCAT, UCMT, UCBT – GDB ou CSV)
+* 🧹 **Normalização e transformação** para modelo relacional escalável
+* 🧠 **Enriquecimento inteligente** via APIs externas (CNPJá, Google Maps, IBGE)
+* 📊 **Visualização avançada** com mapas, séries temporais e agregações
+* 🔍 **Pipeline auditável** com versionamento, rastreabilidade e controle de status
+* ⚡ **Otimizações de banco** com índices, views e materialized views
 
 ---
 
 ## 🛠️ Stack Tecnológica
 
-| Camada         | Tecnologia                             |
+| Camada         | Tecnologias principais                 |
 | -------------- | -------------------------------------- |
 | Backend        | Python 3.11, FastAPI                   |
 | Frontend       | Next.js (React), Tailwind CSS          |
-| Banco de Dados | PostgreSQL (Azure) com extensões GIS   |
-| Jobs & ETL     | Pandas, GeoPandas, psycopg2, Fiona     |
+| Banco de Dados | PostgreSQL (Azure) + extensões GIS     |
+| ETL / Jobs     | Pandas, GeoPandas, psycopg2, Fiona     |
 | Orquestração   | Apache Airflow                         |
 | IA / ML        | Scikit-learn, HuggingFace Transformers |
 | Deploy         | Docker, Docker Compose, Terraform      |
 
 ---
 
-## 📂 Estrutura de Pastas (Escalável e Modular)
+## 📂 Estrutura Modular do Projeto
 
 ```bash
 youon-intelligence/
-├── apps/
-│   ├── api/                # FastAPI backend
-│   └── frontend/           # Next.js + Tailwind
-├── packages/
-│   ├── jobs/               # ETL (importers, enrichers, transformers)
-│   ├── ai/                 # Treinamento, modelos e inferência
-│   ├── database/           # Schema, conexão, índices
-│   └── orchestrator/       # DAGs do Airflow
-├── infra/                  # Docker, Terraform, scripts
-├── data/                   # Arquivos CSV, GDB, logs e modelos
-├── tests/                  # Pytest para API, jobs e AI
-├── docs/                   # Diagramas, glossário, dataset map
-├── requirements.txt
-├── .env.example
-├── Makefile
-└── README.md
+├── apps/                  # Aplicações
+│   ├── api/               # Backend FastAPI
+│   └── frontend/          # Frontend Next.js + Tailwind
+├── packages/              # Pacotes reutilizáveis
+│   ├── jobs/              # ETL (importers, enrichers, transformers)
+│   ├── ai/                # Modelos e inferência
+│   ├── database/          # Schema, conexões, índices
+│   └── orchestrator/      # DAGs do Airflow
+├── infra/                 # Infraestrutura (Docker, Terraform, scripts)
+├── data/                  # Datasets, logs e artefatos
+├── tests/                 # Testes automatizados (Pytest)
+├── docs/                  # Documentação, diagramas, glossário
+└── ...
 ```
 
+Essa organização garante **manutenção simples**, **escalabilidade** e **separação clara de responsabilidades**.
+
 ---
 
-## 🧱 Estrutura de Banco – Schema `intel_lead`
+## 🧱 Modelo de Banco – Schema `intel_lead`
 
-As principais tabelas incluem:
+Principais entidades:
 
-* `lead_bruto` – unidade consumidora base com metadados técnicos
+* `lead_bruto` – unidade consumidora base com dados técnicos
 * `lead_energia_mensal`, `lead_demanda_mensal`, `lead_qualidade_mensal` – séries temporais mensais
-* `import_status` – rastreio de ingesão (camada, distribuidora, ano, status)
-* `lead_enrichment_log` – status e etapas de enriquecimento
-* Tabelas de domínio (classe, modalidade, grupo tensão, etc.)
+* `import_status` – rastreio detalhado das importações
+* `lead_enrichment_log` – etapas do enriquecimento
+* Tabelas de domínio – classe, modalidade, grupo de tensão, etc.
 
-### 📍 Views e Materialized Views
+📍 **Views e Materialized Views**:
 
-* `lead_com_coordenadas` – junta UC + ponto notável
+* `lead_com_coordenadas` – une unidades consumidoras a pontos notáveis
 * `resumo_energia_municipio`, `resumo_leads_distribuidora`, `resumo_leads_ano_camada` – materializadas com `REFRESH`
-* `vw_lead_status_enriquecimento`, `vw_import_status_resumido`, `vw_lead_com_cnae_desc` – para API/admin
+* `vw_lead_status_enriquecimento`, `vw_import_status_resumido` – usadas pela API/admin
 
 ---
 
-## 🧆 Dataset Técnicos Usados
+## 🧆 Datasets Públicos Utilizados
 
 * [BDGD ANEEL (Geo)](https://dadosabertos-aneel.opendata.arcgis.com/)
 * [ANEEL CSV (UCAT, UCMT, UCBT)](https://dadosabertos.aneel.gov.br/)
 * Receita Federal (CNPJá API)
-* Google Maps API, OpenWeather, IBGE
-* ENEL EQME, EQSE, UCAT\_tab, etc.
+* Google Maps API, IBGE, OpenWeather
 
 ---
 
-## 🚀 Primeiros Passos (Dev)
+## 🚀 Como Rodar Localmente
 
 1. Clone o repositório:
 
    ```bash
-   git clone https://github.com/youon/youon-intelligence.git
+   git clone https://github.com/seuusuario/youon-intelligence.git
    cd youon-intelligence
    ```
 
-2. Instale os requisitos:
+2. Instale dependências:
 
    ```bash
    pip install -r requirements.txt
    ```
 
-3. Copie e edite seu `.env`:
+3. Configure o `.env`:
 
    ```bash
    cp .env.example .env
    ```
 
-4. Execute a API:
+4. Suba a API:
 
    ```bash
    uvicorn apps.api.main:app --reload
    ```
 
-5. Execute um job (exemplo):
+5. Execute um job:
 
    ```bash
    python packages/jobs/importers/importer_ucat_job.py
@@ -127,42 +130,35 @@ As principais tabelas incluem:
 
 ---
 
-## 🧪 Testes Automatizados
+## 🧪 Testes e Qualidade
 
-* Testes com `pytest`, cobertura com `coverage`
-* Jobs, API e AI validados em `tests/`
+* Testes automatizados com `pytest`
+* Cobertura de jobs, API e pipelines de ML
+* Métricas de cobertura com `coverage`
 
 ---
 
 ## 📆 Deploy e Orquestração
 
-* `docker-compose up --build`
-* Orquestração com Airflow: `packages/orchestrator/`
-* Infraestrutura com Terraform (Azure)
+* Containers: `docker-compose up --build`
+* Orquestração: DAGs do Airflow (`packages/orchestrator/`)
+* Infra como código: Terraform (Azure)
 
 ---
 
-## 🔐 Segurança
+## 🔮 Roadmap
 
-* Autenticação com JWT
-* Acesso administrativo restrito por IP/VPN
-
----
-
-## 👥 Contribuidores
-
-* Guilherme Costa Proença – Engenharia de Software e Dados
-* \[@SeuGithub] – Backend/ML
-* \[@Colaborador] – Frontend/DevOps
-
----
-
-## 🔬 Próximas Etapas
-
-* Clusterização geográfica de UCs
-* Sistema de recomendação de solução (GTD, Arbitragem…)
+* Clusterização geográfica de unidades consumidoras
+* Sistema de recomendação de soluções energéticas (Arbitragem, GTD, Backup…)
 * Automação da análise de qualidade (DIC/FIC) com ML
+* Expansão de dashboards interativos e API pública
 
 ---
 
-> “Não adianta ter os dados. O valor está em transformá-los em inteligência.” – YouOn Tech Team
+## 👤 Autor
+
+* **Guilherme Costa Proença** – Engenharia de Software e Dados
+
+---
+
+> “O verdadeiro valor dos dados não está em armazená-los, mas em transformá-los em inteligência.”
