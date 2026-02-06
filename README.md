@@ -1,5 +1,8 @@
 # Ai Automation Lab
 
+[![CI](https://github.com/GuilhermeCostaProenca/ai-automation-lab/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/GuilhermeCostaProenca/ai-automation-lab/actions/workflows/ci.yml)
+
+
 TypeScript project focused on AI and automation experiments.
 
 ## Highlights
@@ -33,3 +36,4 @@ Active and maintained.
 ## Author
 **Guilherme Costa Proenca**
 - GitHub: https://github.com/GuilhermeCostaProenca
+
